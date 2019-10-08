@@ -13,6 +13,7 @@
 #define timeLightSensSeconds 3
 #define lightIgnoreVal 4095
 #define darkVal 20
+#define sleepWhenLight 20000000
 
 // Set GPIOs for photo resister, LED, PIR Motion Sensor
 const int photoResistor = 27;
@@ -66,7 +67,7 @@ void setup() {
   lightVal = 0;
   lightValCount = 0;
 
-  esp_sleep_enable_timer_wakeup(20000000);  
+  esp_sleep_enable_timer_wakeup(sleepWhenLight);  
 }
 
 void loop() {
