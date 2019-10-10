@@ -78,7 +78,7 @@ void setup() {
 void loop() {
   
   // Current time
-  delay(1000);
+  delay(2000);
   now = millis();
 
   // Capture photo resistor reading.
