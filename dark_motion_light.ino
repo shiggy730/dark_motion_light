@@ -34,7 +34,7 @@ boolean isDark = false;
 
 // Checks if motion was detected, sets LED HIGH and starts a timer
 void IRAM_ATTR detectsMovement() {
-  Serial.println("MOTION DETECTED!!!");
+  //Serial.println("MOTION DETECTED!!!");
   if (isDark) {
     digitalWrite(led, HIGH);
   }
@@ -51,7 +51,7 @@ void setup() {
   esp_wifi_deinit();
   
   // Serial port for debugging purposes
-  Serial.begin(115200);
+  //Serial.begin(115200);
   
   // PIR Motion Sensor mode INPUT_PULLUP
   pinMode(motionSensor, INPUT_PULLUP);
@@ -87,14 +87,14 @@ void loop() {
   // Take the average reading for specified time to determine if it is dark.
   if (now - lastLightTime > (timeLightSensSeconds*1000)) {
     lightVal = lightVal / lightValCount;
-    Serial.println("Light sensor read: ");
-    Serial.println(lightVal);
+    //Serial.println("Light sensor read: ");
+    //Serial.println(lightVal);
     if (lightVal < darkVal) {
       isDark = true;
-      Serial.println("It is dark...");
+      //Serial.println("It is dark...");
     } else {
       isDark = false;
-      Serial.println("It is light...");
+      //Serial.println("It is light...");
       esp_light_sleep_start();
     }
     lightVal = 0;
@@ -104,7 +104,7 @@ void loop() {
     
   // Turn off the LED after defined time.
   if(startMotionTimer && (now - lastMotionTrigger > (timeMotionSeconds*1000))) {
-    Serial.println("Turn off LED...");
+    //Serial.println("Turn off LED...");
     digitalWrite(led, LOW);
     startMotionTimer = false;
   }
