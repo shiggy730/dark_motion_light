@@ -5,6 +5,7 @@
  * Shigeru Sasao
 **/
 
+#include "esp32-hal-cpu.h"
 #include "esp_bt.h"
 #include "esp_bt_main.h"
 #include "esp_wifi.h"
@@ -13,7 +14,8 @@
 #define timeLightSensSeconds 3
 #define lightIgnoreVal 4095
 #define darkVal 20
-#define sleepWhenLight 20000000
+#define sleepWhenLight 30000000
+#define reducedClockSpeed 80
 
 // Set GPIOs for photo resister, LED, PIR Motion Sensor
 const int photoResistor = 27;
@@ -49,9 +51,12 @@ void setup() {
   esp_bluedroid_disable();  
   esp_wifi_disconnect();
   esp_wifi_deinit();
-  
+
   // Serial port for debugging purposes
   //Serial.begin(115200);
+
+  // Reduce clock speed
+  setCpuFrequencyMhz(reducedClockSpeed);  
   
   // PIR Motion Sensor mode INPUT_PULLUP
   pinMode(motionSensor, INPUT_PULLUP);
@@ -71,8 +76,9 @@ void setup() {
 }
 
 void loop() {
-
+  
   // Current time
+  delay(2000);
   now = millis();
 
   // Capture photo resistor reading.
@@ -95,7 +101,7 @@ void loop() {
     } else {
       isDark = false;
       //Serial.println("It is light...");
-      esp_light_sleep_start();
+      esp_deep_sleep_start();
     }
     lightVal = 0;
     lightValCount = 0;
