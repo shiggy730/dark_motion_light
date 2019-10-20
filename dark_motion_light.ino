@@ -10,11 +10,11 @@
 #include "esp_bt_main.h"
 #include "esp_wifi.h"
 
-#define timeMotionSeconds 10
-#define timeLightSensSeconds 3
+#define timeMotion 10000
+#define timeLightSens 1500
 #define lightIgnoreVal 4095
 #define darkVal 10
-#define sleepAtWakeup 2
+#define sleepAtWakeup 500
 #define reducedClockSpeed 80
 
 // Set GPIOs for photo resister, LED, PIR Motion Sensor
@@ -72,7 +72,7 @@ void loop() {
   lightVal = 0;
   lightValCount = 0;
   lastLightTime = millis();
-  while (lastLightTime - now < (timeLightSensSeconds*1000)) {
+  while (lastLightTime - now < (timeLightSens)) {
     curLightVal = analogRead(photoResistor);
     if (curLightVal != lightIgnoreVal) {
       lightVal += analogRead(photoResistor);
@@ -88,7 +88,7 @@ void loop() {
   if (lightVal < darkVal) {
     //Serial.println("It is dark...");
     digitalWrite(led, HIGH);
-    delay(timeMotionSeconds*1000);
+    delay(timeMotion);
     digitalWrite(led, LOW);
   } else {      
     //Serial.println("It is light..."); 
